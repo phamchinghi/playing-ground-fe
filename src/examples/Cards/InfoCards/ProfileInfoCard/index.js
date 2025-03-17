@@ -33,7 +33,7 @@ import MDTypography from "components/MDTypography";
 import colors from "assets/theme/base/colors";
 import typography from "assets/theme/base/typography";
 
-function ProfileInfoCard({ title, description, info, social, action, shadow }) {
+function ProfileInfoCard({ title, info, action, shadow }) {
   const labels = [];
   const values = [];
   const { socialMediaColors } = colors;
@@ -45,6 +45,10 @@ function ProfileInfoCard({ title, description, info, social, action, shadow }) {
       const uppercaseLetter = Array.from(el).find((i) => i.match(/[A-Z]+/));
       const newElement = el.replace(uppercaseLetter, ` ${uppercaseLetter.toLowerCase()}`);
 
+      labels.push(newElement);
+    }else if(el.match(/([a-z])([A-Z])/g)){
+      const uppercaseLetter = Array.from(el).find((i) => i.match(/([a-z])([A-Z])/g));
+      const newElement = el.replace(uppercaseLetter, ` ${uppercaseLetter.toLowerCase()}`);
       labels.push(newElement);
     } else {
       labels.push(el);
@@ -66,23 +70,26 @@ function ProfileInfoCard({ title, description, info, social, action, shadow }) {
     </MDBox>
   ));
 
-  // Render the card social media icons
-  const renderSocial = social.map(({ link, icon, color }) => (
-    <MDBox
-      key={color}
-      component="a"
-      href={link}
-      target="_blank"
-      rel="noreferrer"
-      fontSize={size.lg}
-      color={socialMediaColors[color].main}
-      pr={1}
-      pl={0.5}
-      lineHeight={1}
-    >
-      {icon}
-    </MDBox>
-  ));
+  // // Render the card social media icons
+  // const renderSocial = social.map(({ link, icon, color }) => (
+  //   <MDBox
+  //     key={color}
+  //     component="a"
+  //     href={link}
+  //     target="_blank"
+  //     rel="noreferrer"
+  //     fontSize={size.lg}
+  //     color={socialMediaColors[color].main}
+  //     pr={1}
+  //     pl={0.5}
+  //     lineHeight={1}
+  //   >
+  //     {icon}
+  //   </MDBox>
+  // ));
+
+
+  
 
   return (
     <Card sx={{ height: "100%", boxShadow: !shadow && "none" }}>
@@ -99,7 +106,6 @@ function ProfileInfoCard({ title, description, info, social, action, shadow }) {
       <MDBox p={2}>
         <MDBox mb={2} lineHeight={1}>
           <MDTypography variant="button" color="text" fontWeight="light">
-            {description}
           </MDTypography>
         </MDBox>
         <MDBox opacity={0.3}>
@@ -109,9 +115,9 @@ function ProfileInfoCard({ title, description, info, social, action, shadow }) {
           {renderItems}
           <MDBox display="flex" py={1} pr={2}>
             <MDTypography variant="button" fontWeight="bold" textTransform="capitalize">
-              social: &nbsp;
+              {/* social: &nbsp; */}
             </MDTypography>
-            {renderSocial}
+            {/* {renderSocial} */}
           </MDBox>
         </MDBox>
       </MDBox>
@@ -127,9 +133,8 @@ ProfileInfoCard.defaultProps = {
 // Typechecking props for the ProfileInfoCard
 ProfileInfoCard.propTypes = {
   title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
   info: PropTypes.objectOf(PropTypes.string).isRequired,
-  social: PropTypes.arrayOf(PropTypes.object).isRequired,
+  // social: PropTypes.arrayOf(PropTypes.object).isRequired,
   action: PropTypes.shape({
     route: PropTypes.string.isRequired,
     tooltip: PropTypes.string.isRequired,

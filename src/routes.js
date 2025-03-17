@@ -44,7 +44,7 @@ import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
-
+import ManageUser from "manageuser";
 // @mui icons
 import Icon from "@mui/material/Icon";
 
@@ -56,6 +56,14 @@ const routes = [
     icon: <Icon fontSize="small">dashboard</Icon>,
     route: "/dashboard",
     component: <Dashboard />,
+  },
+  {
+    type: "collapse",
+    name: "Manage User",
+    key: "manageuser",
+    icon: <Icon fontSize="small">person</Icon>,
+    route: "/manageuser",
+    component: <ManageUser />,
   },
   {
     type: "collapse",
@@ -102,7 +110,7 @@ const routes = [
     name: "Sign In",
     key: "sign-in",
     icon: <Icon fontSize="small">login</Icon>,
-    route: "/authentication/sign-in",
+    route: "/login",
     component: <SignIn />,
   },
   {
@@ -110,7 +118,7 @@ const routes = [
     name: "Sign Up",
     key: "sign-up",
     icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/authentication/sign-up",
+    route: "/signup",
     component: <SignUp />,
   },
 ];
