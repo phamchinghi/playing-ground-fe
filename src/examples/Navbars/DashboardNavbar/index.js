@@ -35,6 +35,7 @@ import MDInput from "components/MDInput";
 // Material Dashboard 2 React example components
 import Breadcrumbs from "examples/Breadcrumbs";
 import NotificationItem from "examples/Items/NotificationItem";
+import MDTypography from "components/MDTypography";
 
 // Custom styles for DashboardNavbar
 import {
@@ -53,6 +54,9 @@ import {
   setOpenConfigurator,
 } from "context";
 
+import AuthService from "../../../service/AuthService";
+
+
 function DashboardNavbar({ absolute, light, isMini }) {
   const [navbarType, setNavbarType] = useState();
   const [controller, dispatch] = useMaterialUIController();
@@ -60,7 +64,16 @@ function DashboardNavbar({ absolute, light, isMini }) {
   const [openMenu, setOpenMenu] = useState(false);
   const route = useLocation().pathname.split("/").slice(1);
 
+  const [currentUser,setCurrentUser] = useState(undefined);
+
   useEffect(() => {
+    // My code
+    const user = AuthService.getCurrentUser();
+    
+    if (user) {
+      setCurrentUser(user);
+      // setShowAdminBoard(user.roles.includes("ADMIN"));
+    }
     // Setting the navbar type
     if (fixedNavbar) {
       setNavbarType("sticky");
@@ -139,11 +152,26 @@ function DashboardNavbar({ absolute, light, isMini }) {
               <MDInput label="Search here" />
             </MDBox>
             <MDBox color={light ? "white" : "inherit"}>
-              <Link to="/authentication/sign-in/basic">
-                <IconButton sx={navbarIconButton} size="small" disableRipple>
-                  <Icon sx={iconsStyle}>account_circle</Icon>
-                </IconButton>
-              </Link>
+              { currentUser ? (
+                <MDTypography variant="button" color="text" fontWeight="regular">
+                  {currentUser.username}
+                  <Link to="/profile"> {/* Direct to User Profile */}
+                    <IconButton sx={navbarIconButton} size="small" disableRipple>
+                      <Icon sx={iconsStyle}>account_circle</Icon>
+                    </IconButton>
+                  </Link>
+                </MDTypography>
+              ) :
+              (
+                <Link to="/login">
+                   <MDTypography variant="button" color="text" fontWeight="regular">
+                    GUEST
+                   </MDTypography>
+                  <IconButton sx={navbarIconButton} size="small" disableRipple>
+                    <Icon sx={iconsStyle}>account_circle</Icon>
+                  </IconButton>
+                </Link>
+              )}
               <IconButton
                 size="small"
                 disableRipple

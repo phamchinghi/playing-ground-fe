@@ -52,7 +52,7 @@ function DataTable({
   const entries = entriesPerPage.entries
     ? entriesPerPage.entries.map((el) => el.toString())
     : ["5", "10", "15", "20", "25"];
-  const columns = useMemo(() => table.columns, [table]);
+  const columns = useMemo(() => table.columns.filter(col => col.accessor !== "id"), [table]);
   const data = useMemo(() => table.rows, [table]);
 
   const tableInstance = useTable(
