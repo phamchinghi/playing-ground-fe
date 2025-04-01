@@ -79,7 +79,7 @@ function Overview() {
 
     try {
       // Gửi request GET đến backend với userId
-      const response = await axios.get(`http://localhost:8082/playing-ground/profile/${userId}`, {
+      const response = await axios.get(`http://localhost:8082/playing-ground/user/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}` // Gửi token trong header
         }
