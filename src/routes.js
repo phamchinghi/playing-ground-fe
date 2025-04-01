@@ -45,6 +45,7 @@ import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
 import ManageUser from "layouts/manageuser";
+import ManageOder from "layouts/manageoder";
 // @mui icons
 import Icon from "@mui/material/Icon";
 
@@ -64,6 +65,14 @@ const routes = [
     icon: <Icon fontSize="small">person</Icon>,
     route: "/manageuser",
     component: <ManageUser />,
+  },
+  {
+    type: "collapse",
+    name: "Manage Oder",
+    key: "manageoder",
+    icon: <Icon fontSize="small">receipt_long</Icon>,
+    route: "/manageoder",
+    component: <ManageOder />,
   },
   {
     type: "collapse",
