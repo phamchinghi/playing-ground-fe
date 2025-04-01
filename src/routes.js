@@ -44,7 +44,7 @@ import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
-import ManageUser from "manageuser";
+import ManageUser from "layouts/manageuser";
 // @mui icons
 import Icon from "@mui/material/Icon";
 

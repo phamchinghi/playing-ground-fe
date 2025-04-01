@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 import AuthService from "./AuthService"; // Điều chỉnh đường dẫn
 
 const AuthContext = createContext();
