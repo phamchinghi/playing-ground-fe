@@ -3,19 +3,16 @@ import axios from "axios";
 const BASE_URL = 'http://localhost:8082/playing-ground/auth/';
 
 class AuthService {
-  login(username, password) {
-    return axios
-    .post(BASE_URL + "login", {
-      username,
-      password
-    })
-    .then(response => {
-      if (response.data.accessToken) {
-        localStorage.setItem("user", JSON.stringify(response.data));
-      }
-
-      return response.data;
-    });
+  async login(username, password) {
+    const response = await axios
+      .post(BASE_URL + "login", {
+        username,
+        password
+      });
+    if (response.data.accessToken) {
+      localStorage.setItem("user", JSON.stringify(response.data));
+    }
+    return response.data;
   }
 
   logout(){

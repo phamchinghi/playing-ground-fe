@@ -3,29 +3,30 @@ import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 
 // Material Dashboard 2 React components
-import MDBox from "../components/MDBox";
-import MDTypography from "../components/MDTypography";
+import MDBox from "../../components/MDBox";
+import MDTypography from "../../components/MDTypography";
 
 // Material Dashboard 2 React example components
-import DashboardLayout from "../examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "../examples/Navbars/DashboardNavbar";
-import Footer from "../examples/Footer";
-import DataTable from "../examples/Tables/DataTable";
+import DashboardLayout from "../../examples/LayoutContainers/DashboardLayout";
+import DashboardNavbar from "../../examples/Navbars/DashboardNavbar";
+import Footer from "../../examples/Footer";
+import DataTable from "../../examples/Tables/DataTable";
 import avatar from "assets/images/user.png";
-import MDAvatar from "../components/MDAvatar";
+import MDAvatar from "../../components/MDAvatar";
 import MDButton from "components/MDButton";
 // Data
-import MDBadge from "../components/MDBadge";
+import MDBadge from "../../components/MDBadge";
 // React
 import { useEffect, useState, useMemo } from "react";
 // Axios
 import axios from "axios";
-import { useAuth } from "../service/AuthContext";
+import { useAuth } from "../../service/AuthContext";
 // Thêm các import cần thiết cho Modal
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import MDInput from "components/MDInput";
 import { useTheme } from "@mui/material/styles";
+import Loader from "../../components/Custom/Loader";
 
 function ManageUser() {
   const [rawUsers, setRawUsers] = useState([]); // Dữ liệu thô từ API
@@ -94,7 +95,7 @@ function ManageUser() {
     // Gọi API để lấy dữ liệu user
     try {
       const response = await axios.get(
-        "http://localhost:8082/playing-ground/profile/getAllUser",
+        "http://localhost:8082/playing-ground/user/getAllUser",
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -143,7 +144,7 @@ function ManageUser() {
 
     try {
       const response = await axios.put(
-        "http://localhost:8082/playing-ground/profile/update",
+        "http://localhost:8082/playing-ground/user/update",
         updateData,
         {
           headers: {
@@ -207,7 +208,9 @@ function ManageUser() {
               </MDBox>
               <MDBox pt={3}>
                 {loading ? (
-                  <MDTypography>Loading...</MDTypography>
+                    <div>
+                      <Loader /> {/* Spinner từ Material-UI */}
+                    </div>
                 ) : error ? (
                   <MDTypography color="error">{error}</MDTypography>
                 ) : (
