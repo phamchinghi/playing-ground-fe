@@ -25,7 +25,7 @@ import { useTheme } from "@mui/material/styles";
 import Loader from "../../components/Custom/Loader";
 
 function ManageOder() {
-  const [rawUsers, setRawUsers] = useState([]); // Dữ liệu thô từ API
+  const [rawOrders, setRawOrders] = useState([]); // Dữ liệu thô từ API
   // const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -44,14 +44,14 @@ function ManageOder() {
   const theme = useTheme(); // Lấy theme hiện tại (light/dark)
 
   // Chuyển dữ liệu thô thành dữ liệu hiển thị với useMemo
-  const users = useMemo(() => {
-    return rawUsers.map((user) => ({
-      id: user.id,
+  const orders = useMemo(() => {
+    return rawOrders.map((order) => ({
+      id: order.orderID,
       owner: (
-        <Oder name={`${user.firstname} ${user.lastname}`} email={user.email} />
+        <Oder name={`${order.ownerName}`} />
       ),
-      total_amount: <TotalAmount title={user.phone} />,
-      discount: <TotalAmount title={user.roles[0]} />,
+      total_amount: <TotalAmount title={order.totalAmount} />,
+      discount: <TotalAmount title={order.discount} />,
       // status: (
       //   <MDBadge
       //     badgeContent={user.is_active ? "Active" : "Inactive"}
@@ -60,7 +60,7 @@ function ManageOder() {
       //     size="sm"
       //   />
       // ),
-      oder_date: new Date(user.created_at).toLocaleDateString(),
+      oder_date: new Date(order.orderDate).toLocaleDateString(),
       action: (
         <MDBox>
           <MDButton
@@ -68,21 +68,21 @@ function ManageOder() {
             variant="outlined"
             color="info"
             circular="true"
-            onClick={() => handleEdit(user)}
+            onClick={() => handleEdit(order)}
           >
             Edit
           </MDButton>
           <MDButton
             variant="text"
             color="error"
-            onClick={() => handleDelete(user)}
+            onClick={() => handleDelete(order)}
           >
             DELETE
           </MDButton>
         </MDBox>
       ),
     }));
-  }, [rawUsers]);
+  }, [rawOrders]);
 
   useEffect(() => {
     if (currentUser) {
@@ -97,7 +97,7 @@ function ManageOder() {
     // Gọi API để lấy dữ liệu user
     try {
       const response = await axios.get(
-        "http://localhost:8082/playing-ground/user/getAllUser",
+        "http://localhost:8082/playing-ground/order/manageOrder",
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -105,7 +105,7 @@ function ManageOder() {
         }
       );
       if (response.status === 200) {
-        setRawUsers(response.data.response); // Lưu dữ liệu thô
+        setRawOrders(response.data.response); // Lưu dữ liệu thô
         setLoading(false);
       }
     } catch (error) {
@@ -160,7 +160,7 @@ function ManageOder() {
       );
       // Update list user
       if (response.status === 200) {
-        setRawUsers((prevRawUsers) =>
+        setRawOrders((prevRawUsers) =>
           prevRawUsers.map((u) =>
             u.userId === selectedUser.userId ? { ...u, ...selectedUser } : u
           )
@@ -221,7 +221,7 @@ function ManageOder() {
                   <MDTypography color="error">{error}</MDTypography>
                 ) : (
                   <DataTable
-                    table={{ columns, rows: users }}
+                    table={{ columns, rows: orders }}
                     isSorted={false}
                     entriesPerPage={true}
                     showTotalEntries={true}
