@@ -44,7 +44,6 @@ function Login() {
 
     AuthService.login(username, password).then(
       (response) => {
-        localStorage.setItem("user", JSON.stringify(response.response));
         navigate(response.response.roles[0] === "ADMIN" ? "/dashboard" : "/home");
         window.location.reload();
       },

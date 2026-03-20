@@ -14,8 +14,9 @@ import DataTable from "../../examples/Tables/DataTable";
 import MDButton from "components/MDButton";
 // React
 import { useEffect, useState, useMemo } from "react";
-// Axios
-import axios from "axios";
+// API
+import api from "../../service/axiosInstance";
+
 import { useAuth } from "../../service/AuthContext";
 // Thêm các import cần thiết cho Modal
 import Modal from "@mui/material/Modal";
@@ -47,9 +48,7 @@ function ManageOder() {
   const orders = useMemo(() => {
     return rawOrders.map((order) => ({
       id: order.orderID,
-      owner: (
-        <Oder name={`${order.ownerName}`} />
-      ),
+      owner: <Oder name={`${order.ownerName}`} />,
       total_amount: <TotalAmount title={order.totalAmount} />,
       discount: <TotalAmount title={order.discount} />,
       // status: (
@@ -96,14 +95,8 @@ function ManageOder() {
   const fetchUserData = async (user) => {
     // Gọi API để lấy dữ liệu user
     try {
-      const response = await axios.get(
-        "http://localhost:8082/playing-ground/order/manageOrder",
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
+      const response = await api.get("/order/manageOrder", {
+      });
       if (response.status === 200) {
         setRawOrders(response.data.response); // Lưu dữ liệu thô
         setLoading(false);
@@ -149,15 +142,11 @@ function ManageOder() {
     };
 
     try {
-      const response = await axios.put(
-        "http://localhost:8082/playing-ground/user/update",
-        updateData,
-        {
-          headers: {
-            Authorization: `Bearer ${currentUser.token}`, // Sử dụng token từ state
-          },
-        }
-      );
+      const response = await api.put("/user/update", updateData, {
+        headers: {
+          Authorization: `Bearer ${currentUser.token}`, // Sử dụng token từ state
+        },
+      });
       // Update list user
       if (response.status === 200) {
         setRawOrders((prevRawUsers) =>
@@ -402,7 +391,6 @@ function ManageOder() {
                 <MDTypography
                   fontWeight="regular"
                   variant="h5"
-
                   color={theme.palette.text.primary} //character color follow theme
                 >
                   Confirmation delete user?(put order's name here)
